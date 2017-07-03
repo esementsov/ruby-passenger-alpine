@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-LABEL name="Alpine 3.6 + ruby/passenger""
+LABEL name="Alpine 3.6 + ruby/passenger"
 
 ENV ENV="/etc/profile.d/rbenv.sh"
 ENV RBENV_ROOT=/usr/local/rbenv
