@@ -4,7 +4,7 @@ LABEL name="Alpine Base Image"
 
 ENV ENV="/etc/profile.d/rbenv.sh"
 ENV RBENV_ROOT=/usr/local/rbenv
-ENV RBENV_VERSION=2.2.2
+ENV RBENV_VERSION=2.3.1
 ENV ac_cv_func_isnan yes
 ENV ac_cv_func_isinf yes
 
@@ -43,21 +43,25 @@ RUN apk add --no-cache build-base\
 				procps\
 				procps-dev
 
-RUN			  echo 'export RBENV_ROOT=/usr/local/rbenv' > /etc/profile.d/rbenv.sh\
+RUN				echo 'export RBENV_ROOT=/usr/local/rbenv' > /etc/profile.d/rbenv.sh\
 				&&  echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> /etc/profile.d/rbenv.sh\
 				&&  echo 'export PATH="$RBENV_ROOT/shims:$PATH"' >> /etc/profile.d/rbenv.sh\
 				&&  echo 'eval "$(rbenv init -)"'  >> /etc/profile.d/rbenv.sh\
-				&&  chmod +x /etc/profile.d/rbenv.sh\ 
-				&&  git clone https://github.com/rbenv/rbenv.git ${RBENV_ROOT}\
+				&&  chmod +x /etc/profile.d/rbenv.sh
+				
+RUN				git clone https://github.com/rbenv/rbenv.git ${RBENV_ROOT}\
 				&&  mkdir -p ${RBENV_ROOT}/plugins\
 				&&  git clone https://github.com/rbenv/ruby-build.git ${RBENV_ROOT}/plugins/ruby-build\
 				&&  git clone https://github.com/rbenv/rbenv-vars.git ${RBENV_ROOT}/plugins/rbenv-vars\
-				&&  source /etc/profile.d/rbenv.sh\
-				&&  ${RBENV_ROOT}/bin/rbenv install ${RBENV_VERSION}\
+				&&  source /etc/profile.d/rbenv.sh
+				
+RUN				${RBENV_ROOT}/bin/rbenv install ${RBENV_VERSION}\
 				&&  ${RBENV_ROOT}/shims/gem install passenger --no-ri --no-rdoc\
 				&&  ${RBENV_ROOT}/shims/gem install bundler\
 				&&  ${RBENV_ROOT}/shims/passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx\
-				&&  ${RBENV_ROOT}/shims/passenger-config install-standalone-runtime --auto\
+# standalone:
+#				&&  ${RBENV_ROOT}/shims/passenger-config install-standalone-runtime --auto\
+				&& ${RBENV_ROOT}/shims/passenger-config install-agent --auto\
 				&&  ${RBENV_ROOT}/bin/rbenv rehash
 #				&&  apk del --no-cache gcc g++ linux-headers make ruby build-base
 
