@@ -1,10 +1,14 @@
 FROM alpine:3.6
 
-LABEL name="Alpine Base Image"
+LABEL name="Alpine 3.6 + ruby/passenger""
 
 ENV ENV="/etc/profile.d/rbenv.sh"
 ENV RBENV_ROOT=/usr/local/rbenv
+
 ENV RBENV_VERSION=2.3.1
+ENV RBENV_DOCVERSION=2.3.0
+ENV PASSENGER_VERSION=5.1.5
+
 ENV ac_cv_func_isnan yes
 ENV ac_cv_func_isinf yes
 
@@ -56,15 +60,20 @@ RUN				git clone https://github.com/rbenv/rbenv.git ${RBENV_ROOT}\
 				&&  source /etc/profile.d/rbenv.sh
 				
 RUN				${RBENV_ROOT}/bin/rbenv install ${RBENV_VERSION}\
-				&&  ${RBENV_ROOT}/shims/gem install passenger --no-ri --no-rdoc\
+				&&  ${RBENV_ROOT}/shims/gem install passenger -v ${PASSENGER_VERSION} --no-ri --no-rdoc\
 				&&  ${RBENV_ROOT}/shims/gem install bundler\
 				&&  ${RBENV_ROOT}/shims/passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx\
+				&&  ${RBENV_ROOT}/shims/passenger-config install-agent --auto\
+				&&  ${RBENV_ROOT}/bin/rbenv rehash
+				
+RUN				rm -rf /usr/local/rbenv/versions/${RBENV_VERSION}/lib/ruby/gems/${RBENV_DOCVERSION}/doc\
+				/usr/local/rbenv/versions/${RBENV_VERSION}/lib/ruby/gems/${RBENV_DOCVERSION}/gems/passenger-${PASSENGER_VERSION}/doc\
+				/usr/local/rbenv/versions/${RBENV_VERSION}/share/
+
 # standalone:
 #				&&  ${RBENV_ROOT}/shims/passenger-config install-standalone-runtime --auto\
-				&& ${RBENV_ROOT}/shims/passenger-config install-agent --auto\
-				&&  ${RBENV_ROOT}/bin/rbenv rehash
-#				&&  apk del --no-cache gcc g++ linux-headers make ruby build-base
 
+#				&&  apk del --no-cache gcc g++ linux-headers make ruby build-base
 
 # COPY .ssh /root/.ssh
 
