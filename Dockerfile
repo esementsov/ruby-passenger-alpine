@@ -64,6 +64,7 @@ RUN				${RBENV_ROOT}/bin/rbenv install ${RBENV_VERSION}\
 				&&  ${RBENV_ROOT}/shims/gem install bundler\
 				&&  ${RBENV_ROOT}/shims/passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx\
 				&&  ${RBENV_ROOT}/shims/passenger-config install-agent --auto\
+				&&  ${RBENV_ROOT}/shims/passenger-config install-standalone-runtime --auto\
 				&&  ${RBENV_ROOT}/bin/rbenv rehash
 				
 RUN				rm -rf /usr/local/rbenv/versions/${RBENV_VERSION}/lib/ruby/gems/${RBENV_DOCVERSION}/doc\
