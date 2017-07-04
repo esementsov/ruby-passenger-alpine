@@ -5,8 +5,8 @@ LABEL name="Alpine 3.6 + ruby/passenger"
 ENV ENV="/etc/profile.d/rbenv.sh"
 ENV RBENV_ROOT=/usr/local/rbenv
 
-ENV RBENV_VERSION=2.3.4
-ENV RBENV_DOCVERSION=2.3.0
+ENV RBENV_VERSION=2.4.1
+ENV RBENV_DOCVERSION=2.4.0
 ENV PASSENGER_VERSION=5.1.5
 
 ENV ac_cv_func_isnan yes
