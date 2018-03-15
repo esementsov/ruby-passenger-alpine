@@ -5,8 +5,8 @@ LABEL name="Alpine 3.6 + ruby/passenger"
 ENV ENV="/etc/profile.d/rbenv.sh"
 ENV RBENV_ROOT=/usr/local/rbenv
 
-ENV RBENV_VERSION=2.2.7
-ENV RBENV_DOCVERSION=2.2.0
+ENV RBENV_VERSION=2.5.0
+ENV RBENV_DOCVERSION=2.5.0
 ENV PASSENGER_VERSION=5.1.5
 
 ENV ac_cv_func_isnan yes
@@ -71,13 +71,12 @@ RUN				rm -rf /usr/local/rbenv/versions/${RBENV_VERSION}/lib/ruby/gems/${RBENV_D
 				/usr/local/rbenv/versions/${RBENV_VERSION}/lib/ruby/gems/${RBENV_DOCVERSION}/gems/passenger-${PASSENGER_VERSION}/doc\
 				/usr/local/rbenv/versions/${RBENV_VERSION}/share/
 
-# standalone:
-#				&&  ${RBENV_ROOT}/shims/passenger-config install-standalone-runtime --auto\
-
+# for clean container:
 #				&&  apk del --no-cache gcc g++ linux-headers make ruby build-base
 
+# FOR ssh access to container:
 # COPY .ssh /root/.ssh
-
 # RUN chmod 600 /root/.ssh/id_rsa
 
+# healthcheck example:
 # HEALTHCHECK CMD passenger-status | awk '/Requests in queue:/{print $4}' || exit 1
