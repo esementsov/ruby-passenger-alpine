@@ -1,6 +1,6 @@
 - [Introduction](#introduction)
 - [Files](#files)
-- [Making image](#makingimage)
+- [Making image](#making-image)
 
 # Introduction
 This image is useful if you use Ruby on Rails applications.
