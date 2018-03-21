@@ -10,7 +10,8 @@ Also you can use entrypoint / Dockerfile for your applications.
 Simplest way - adding dockerfile / entrypoint to your git repository.
 # Files 
 ## Dockerfile
-```FROM esementsov/ruby-passenger-alpine:2.4.1
+```
+FROM esementsov/ruby-passenger-alpine:2.4.1
 
 RUN mkdir /myapp
 WORKDIR /myapp
@@ -27,7 +28,7 @@ EXPOSE 80
 ENTRYPOINT ["/myapp/entrypoint.sh"]
 ```
 ## entrypoint.sh
-```cat entrypoint.sh
+```
 #!/bin/bash
 
 ${RBENV_ROOT}/shims/bundle exec rake assets:clobber && \
@@ -36,5 +37,6 @@ ${RBENV_ROOT}/shims/bundle exec rake db:migrate && \
 /usr/local/rbenv/shims/passenger start -p 80 -e production --log-level 4
 ```
 # Making image
-```docker build -t myapp:1.0 .
+```
+docker build -t myapp:1.0 .
 ```
